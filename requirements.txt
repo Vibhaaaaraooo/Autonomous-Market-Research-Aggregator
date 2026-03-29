@@ -1,0 +1,39 @@
+# ============================================================
+# Autonomous Market Research Aggregator — Requirements
+# ============================================================
+# Install:  pip install -r requirements.txt
+# Python:   3.11+
+# ============================================================
+
+# ===== Core / LLM =====
+groq==1.1.2                   # Groq LLM API client (Planner + Writer agents)
+httpx==0.28.1                 # Async HTTP client for Serper.dev & web scraping
+python-dotenv==1.2.2          # Loads .env file into os.environ
+pydantic==2.12.5              # Data validation & typed settings models
+pydantic-settings==2.13.1     # Pydantic BaseSettings (reads .env automatically)
+
+# ===== RAG Pipeline =====
+chromadb==1.5.5               # Vector database — stores & queries embedded chunks
+sentence-transformers==5.3.0  # Embedding model (all-MiniLM-L6-v2, 384-dim)
+tiktoken==0.12.0              # OpenAI tokenizer — token-aware chunking
+
+# ===== Web Scraping & Content Extraction =====
+beautifulsoup4==4.14.3        # HTML parser — fallback article extraction
+trafilatura==2.0.0            # Primary article body extractor (high recall)
+newspaper3k==0.2.8            # Article extraction fallback (titles, metadata)
+
+# ===== MCP Server (Model Context Protocol) =====
+mcp==1.26.0                   # MCP SDK — exposes save/list/read report tools
+uvicorn==0.42.0               # ASGI server (MCP HTTP transport)
+starlette==1.0.0              # ASGI framework (used by MCP internally)
+
+# ===== Web UI =====
+streamlit==1.55.0             # Streamlit web app (app.py)
+
+# ===== CLI & Terminal Output =====
+rich==14.3.3                  # Colored, structured terminal logging
+typer==0.24.1                 # CLI framework (main.py commands)
+
+# ===== Utilities =====
+tenacity==9.1.4               # Retry decorator for flaky API calls
+aiofiles==25.1.0              # Async file I/O for report saving
