@@ -1,6 +1,7 @@
 """
 Configuration loader for Market Research Aggregator.
 Reads .env file and provides typed settings via Pydantic.
+Also supports Streamlit secrets for cloud deployment.
 """
 
 import os
@@ -9,8 +10,18 @@ from pydantic import Field
 from pydantic_settings import BaseSettings
 from dotenv import load_dotenv
 
-# Load .env from project root
+# Load .env from project root (local development)
 load_dotenv(dotenv_path=Path(__file__).parent / ".env")
+
+# Load Streamlit secrets into env vars (cloud deployment)
+try:
+    import streamlit as st
+    if hasattr(st, "secrets"):
+        for key in ["GROQ_API_KEY", "SERPER_API_KEY"]:
+            if key in st.secrets and key not in os.environ:
+                os.environ[key] = st.secrets[key]
+except Exception:
+    pass  # Not running in Streamlit context (CLI mode)
 
 
 class Settings(BaseSettings):

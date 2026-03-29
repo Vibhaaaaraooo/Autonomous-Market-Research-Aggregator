@@ -66,15 +66,28 @@ with st.sidebar:
 
     settings = get_settings()
 
+    # Pre-fill from .env or Streamlit secrets
+    default_groq = ""
+    default_serper = ""
+    if settings.groq_api_key and settings.groq_api_key != "your_groq_api_key_here":
+        default_groq = settings.groq_api_key
+    elif "GROQ_API_KEY" in st.secrets:
+        default_groq = st.secrets["GROQ_API_KEY"]
+
+    if settings.serper_api_key and settings.serper_api_key != "your_serper_api_key_here":
+        default_serper = settings.serper_api_key
+    elif "SERPER_API_KEY" in st.secrets:
+        default_serper = st.secrets["SERPER_API_KEY"]
+
     groq_key = st.text_input(
         "Groq API Key",
-        value=settings.groq_api_key if settings.groq_api_key != "your_groq_api_key_here" else "",
+        value=default_groq,
         type="password",
         help="Get yours at https://console.groq.com/keys",
     )
     serper_key = st.text_input(
         "Serper.dev API Key",
-        value=settings.serper_api_key if settings.serper_api_key != "your_serper_api_key_here" else "",
+        value=default_serper,
         type="password",
         help="Get yours at https://serper.dev/api-key",
     )
